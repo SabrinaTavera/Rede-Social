@@ -1,24 +1,65 @@
+import { format, formatDistanceToNow} from "date-fns"
+import ptBR from 'date-fns/locale/pt-BR'
+
 import styles from "./Post.module.css"
 import { Comment } from "./Comment"
 import { Avatar } from "./Avatar"
 
 
-export function Post(){
+export function Post({author, publishedAt, content }){
+
+    /**
+     * publishedAt.toISOString()
+     * A função toISOString() também é nativa do javascript 
+     */
+
+    /**
+     * Intl api que vem por padrão no javascript sem instalação 
+     * Ele permite fazer a formatação de datas, números, puralização, listas  e etc 
+     */
+    // const publishedAtDateFormat = new Intl.DateTimeFormat('pt-BR',{
+    //     day: "2-digit",
+    //     month: "long",
+    //     hour: "2-digit",
+    //     minute: "2-digit",
+    // }).format(publishedAt)
+
+    /**
+     * Também temos a opção de trabalhar com o date-fns, mas é necessário a instalação 
+     * npm i date-fns 
+     */
+    const publishedAtDateFormat = format(publishedAt,  "d 'de' LLLL 'às' HH:mm'h'", {
+        locale: ptBR
+    })
+
+    const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+        locale: ptBR,
+        addSuffix: true
+    })
+
     return (
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                    <Avatar src="https://scontent.fmii10-1.fna.fbcdn.net/v/t1.6435-9/174335523_3883790261698521_8738826948683911753_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=o9jU8v9gdToAX-D9Rbq&_nc_ht=scontent.fmii10-1.fna&oh=00_AT-197_IaDiv_YGYWZFI8lKuYyaPbuRtwPkjIPj8ONw3Mg&oe=62EC7979"/>
+                    <Avatar src={author.avatarUrl}/>
                 <div className={styles.authorInfo}>
-                    <strong>Sabrina Tavera</strong>
-                    <span>Web Developer</span>
+                    <strong>{author.name}</strong>
+                    <span>{author.role}</span>
                 </div>
                 </div>
-                <time title="11 de maio as 11:13h" dateTime="2022-05-11 08:13:30">
-                    Publicado há 1h
+                <time title={publishedAtDateFormat} dateTime={publishedAt.toISOString()}>
+                    {publishedDateRelativeToNow}
                 </time>
             </header>
             <div className={styles.content}>
+                {content.map(line=>{
+                    if(line.type === 'paragraph'){
+                        return <p>{line.content}</p>;
+                    }else if(line.type === 'link'){
+                        return <p><a>{line.content}</a></p>;
+                    }
+                })}
+         
                 <p>Fala galeraa 👋</p>
 
                 <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
@@ -48,6 +89,8 @@ export function Post(){
 
             </form>
             <div className={styles.commentList}>
+                <Comment/>
+                <Comment/>
                 <Comment/>
 
             </div>
