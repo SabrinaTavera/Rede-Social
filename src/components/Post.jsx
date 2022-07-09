@@ -23,7 +23,11 @@ export function Post(){
 
                 <p>👉 <a>jane.design/doctorcare</a></p>
 
-                <p><a>#novoprojeto #nlw #rocketseat</a></p>
+                <p>
+                    <a>#novoprojeto </a>
+                    <a href="#">   #nlw </a>
+                    <a href="#">    #rocketseat</a>
+                </p>
 
             </div>
 
