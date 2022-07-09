@@ -33,16 +33,7 @@
     padding: 1.6;
 }
 
-.avatar {
-    box-sizing: initial;
-    /* width: 3rem;
-    height: 3rem; */
-    width: calc(3rem + 12px);
-    height: calc(3rem + 12px);
-    border-radius: 8px;
-    border: 4px solid var(--gray-800);
-    outline: 2px solid var(--green-500);
-}
+
 
 .sidebar footer {
     border-top: 1px solid var(--gray-600);
@@ -53,8 +44,8 @@
 .sidebar footer a {
     width: 100%;
     background: transparent;
-    color: var(--gren-500);
-    border: 1px solid var(--gren-500);
+    color: var(--green-500);
+    border: 1px solid var(--green-500);
     border-radius: 8px;
     height: 50px;
     padding: 0 1.5rem;

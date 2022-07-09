@@ -1,5 +1,6 @@
 import styles from "./Sidebar.module.css"
 import { PencilLine } from "phosphor-react"
+import { Avatar } from "./Avatar"
 export function Sidebar(){
     return(
         <aside className={styles.sidebar}>
@@ -11,9 +12,9 @@ export function Sidebar(){
               
 
             <div className={styles.profile}>
+            
 
-                <img className={styles.avatar} src="https://scontent.fmii10-1.fna.fbcdn.net/v/t1.6435-9/174335523_3883790261698521_8738826948683911753_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=o9jU8v9gdToAX-D9Rbq&_nc_ht=scontent.fmii10-1.fna&oh=00_AT-197_IaDiv_YGYWZFI8lKuYyaPbuRtwPkjIPj8ONw3Mg&oe=62EC7979"></img>
-
+              <Avatar src="https://scontent.fmii10-1.fna.fbcdn.net/v/t1.6435-9/174335523_3883790261698521_8738826948683911753_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=o9jU8v9gdToAX-D9Rbq&_nc_ht=scontent.fmii10-1.fna&oh=00_AT-197_IaDiv_YGYWZFI8lKuYyaPbuRtwPkjIPj8ONw3Mg&oe=62EC7979"/>
                 <strong>
                     Sabrina Tavera 
                 </strong>
