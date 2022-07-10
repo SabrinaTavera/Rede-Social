@@ -4,7 +4,10 @@ import ptBR from 'date-fns/locale/pt-BR'
 import styles from "./Post.module.css"
 import { Comment } from "./Comment"
 import { Avatar } from "./Avatar"
+import { useState } from "react"
 
+
+//estado = variáveis que eu quero que o component monitore
 
 export function Post({author, publishedAt, content }){
 
@@ -28,6 +31,12 @@ export function Post({author, publishedAt, content }){
      * Também temos a opção de trabalhar com o date-fns, mas é necessário a instalação 
      * npm i date-fns 
      */
+
+    const  [comments, setComments] = useState(['Post muito bacana']);
+
+    const [newCommentText, setNewCommentText] = useState('')
+
+
     const publishedAtDateFormat = format(publishedAt,  "d 'de' LLLL 'às' HH:mm'h'", {
         locale: ptBR
     })
@@ -36,6 +45,49 @@ export function Post({author, publishedAt, content }){
         locale: ptBR,
         addSuffix: true
     })
+
+    function handleCreateNewComent(){
+        
+        event.preventDefault();       
+        
+        
+        const newText = event.target.comment.value;
+        //imutabilidade 
+
+        setComments([...comments, newText])
+
+        //Exemplo de programação imperativa 
+        //console.log(event.target.comment.value)
+        //event.target.comment.value = ""
+
+        //Exemplo de programação declarativa 
+        setNewCommentText('');
+    }
+
+    function handleNewCommentChange(){
+        event.target.setCustomValidity('')
+        setNewCommentText(event.target.value)
+    }
+
+    function deleteComment(commentToDelete){
+
+        //imutabilidade as coisas não sofrem mutação, nós criamos um novo valor (um novo espaço na memória)
+
+
+        const commentsWithoutDeletedOne = comments.filter(comment=>{
+            return comment !== commentToDelete;
+        })
+
+        setComments(commentsWithoutDeletedOne)
+        console.log(`Deletar comentário ${commentToDelete}`)
+    }
+
+    function handleNewCommentInvalid(){
+        console.log(event)
+        event.target.setCustomValidity('Este campo é obrigatório')
+    }
+
+    const isNewCommentEmpty = newCommentText.length === 0
 
     return (
         <article className={styles.post}>
@@ -54,44 +106,36 @@ export function Post({author, publishedAt, content }){
             <div className={styles.content}>
                 {content.map(line=>{
                     if(line.type === 'paragraph'){
-                        return <p>{line.content}</p>;
+                        return <p key={line.content}>{line.content}</p>;
                     }else if(line.type === 'link'){
-                        return <p><a>{line.content}</a></p>;
+                        return <p key={line.content}><a>{line.content}</a></p>;
                     }
                 })}
          
-                <p>Fala galeraa 👋</p>
-
-                <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
-
-                <p>👉 <a>jane.design/doctorcare</a></p>
-
-                <p>
-                    <a>#novoprojeto </a>
-                    <a href="#">   #nlw </a>
-                    <a href="#">    #rocketseat</a>
-                </p>
+               
 
             </div>
-            <form className={styles.comentForm}>
+            <form onSubmit={handleCreateNewComent} className={styles.comentForm}>
                 <strong>Deixe seu cometário</strong>
                 <textarea
                     placeholder="Deixe um cometário"
+                    name="comment"
+                    value={newCommentText}
+                    onChange={handleNewCommentChange}
+                    onInvalid={handleNewCommentInvalid}
+                    required
                 />
                 <footer>
-                    <button type="submit">
+                    <button  type="submit" disabled={newCommentText.length === 0} >
                         Publicar
                     </button>
-                </footer>
-
-
-                
+                </footer>       
 
             </form>
             <div className={styles.commentList}>
-                <Comment/>
-                <Comment/>
-                <Comment/>
+                {comments.map(comment=>{
+                    return <Comment key={comment} content={comment} onDeleteComment={deleteComment}/>
+                })}
 
             </div>
 

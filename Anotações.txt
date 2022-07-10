@@ -1,0 +1,26 @@
+#Programação inperativa 
+
+É uma forma de escrever nosso código
+
+-> O que deve ser feito 
+
+
+
+#Programação declarativa 
+
+Quais as condições para eu ter um resultado final 
+
+
+##Key no React 
+
+#Porque a key tem que ser unica ?
+
+3 principais momento em que um componente é renderizado novamente no react 
+
+1.Quando o estado altera;
+2.Quando a propriedade altera;
+3.Quando o um componente pai renderiza novamente;
+
+##Porque não posso usar o índice do array
+
+Porque se eu mudar os intens de posição do array os índices não vão mudar 
