@@ -1,15 +1,28 @@
-import { format, formatDistanceToNow} from "date-fns"
+import { format, formatDistanceToNow } from "date-fns"
 import ptBR from 'date-fns/locale/pt-BR'
 
 import styles from "./Post.module.css"
 import { Comment } from "./Comment"
 import { Avatar } from "./Avatar"
-import { useState } from "react"
+import { FormEvent, useState } from "react"
 
 
 //estado = variáveis que eu quero que o component monitore
 
-export function Post({author, publishedAt, content }){
+interface Author {
+    name: string;
+    role: string;
+    avatarUrl: string;
+
+}
+
+interface PostProps {
+    author: Author;
+    publishedAt: Date;
+    content: string;
+}
+
+export function Post({ author, publishedAt, content }: PostProps) {
 
     /**
      * publishedAt.toISOString()
@@ -32,12 +45,12 @@ export function Post({author, publishedAt, content }){
      * npm i date-fns 
      */
 
-    const  [comments, setComments] = useState(['Post muito bacana']);
+    const [comments, setComments] = useState(['Post muito bacana']);
 
     const [newCommentText, setNewCommentText] = useState('')
 
 
-    const publishedAtDateFormat = format(publishedAt,  "d 'de' LLLL 'às' HH:mm'h'", {
+    const publishedAtDateFormat = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
         locale: ptBR
     })
 
@@ -46,12 +59,10 @@ export function Post({author, publishedAt, content }){
         addSuffix: true
     })
 
-    function handleCreateNewComent(){
-        
-        event.preventDefault();       
-        
-        
-        const newText = event.target.comment.value;
+    function handleCreateNewComent(event: FormEvent) {
+
+        event.preventDefault();
+
         //imutabilidade 
 
         setComments([...comments, newText])
@@ -64,17 +75,17 @@ export function Post({author, publishedAt, content }){
         setNewCommentText('');
     }
 
-    function handleNewCommentChange(){
+    function handleNewCommentChange(event) {
         event.target.setCustomValidity('')
         setNewCommentText(event.target.value)
     }
 
-    function deleteComment(commentToDelete){
+    function deleteComment(commentToDelete) {
 
         //imutabilidade as coisas não sofrem mutação, nós criamos um novo valor (um novo espaço na memória)
 
 
-        const commentsWithoutDeletedOne = comments.filter(comment=>{
+        const commentsWithoutDeletedOne = comments.filter(comment => {
             return comment !== commentToDelete;
         })
 
@@ -82,7 +93,7 @@ export function Post({author, publishedAt, content }){
         console.log(`Deletar comentário ${commentToDelete}`)
     }
 
-    function handleNewCommentInvalid(){
+    function handleNewCommentInvalid() {
         console.log(event)
         event.target.setCustomValidity('Este campo é obrigatório')
     }
@@ -93,26 +104,26 @@ export function Post({author, publishedAt, content }){
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                    <Avatar src={author.avatarUrl}/>
-                <div className={styles.authorInfo}>
-                    <strong>{author.name}</strong>
-                    <span>{author.role}</span>
-                </div>
+                    <Avatar src={author.avatarUrl} />
+                    <div className={styles.authorInfo}>
+                        <strong>{author.name}</strong>
+                        <span>{author.role}</span>
+                    </div>
                 </div>
                 <time title={publishedAtDateFormat} dateTime={publishedAt.toISOString()}>
                     {publishedDateRelativeToNow}
                 </time>
             </header>
             <div className={styles.content}>
-                {content.map(line=>{
-                    if(line.type === 'paragraph'){
+                {content.map(line => {
+                    if (line.type === 'paragraph') {
                         return <p key={line.content}>{line.content}</p>;
-                    }else if(line.type === 'link'){
+                    } else if (line.type === 'link') {
                         return <p key={line.content}><a>{line.content}</a></p>;
                     }
                 })}
-         
-               
+
+
 
             </div>
             <form onSubmit={handleCreateNewComent} className={styles.comentForm}>
@@ -126,15 +137,15 @@ export function Post({author, publishedAt, content }){
                     required
                 />
                 <footer>
-                    <button  type="submit" disabled={newCommentText.length === 0} >
+                    <button type="submit" disabled={newCommentText.length === 0} >
                         Publicar
                     </button>
-                </footer>       
+                </footer>
 
             </form>
             <div className={styles.commentList}>
-                {comments.map(comment=>{
-                    return <Comment key={comment} content={comment} onDeleteComment={deleteComment}/>
+                {comments.map(comment => {
+                    return <Comment key={comment} content={comment} onDeleteComment={deleteComment} />
                 })}
 
             </div>
