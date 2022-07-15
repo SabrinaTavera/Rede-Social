@@ -1,10 +1,13 @@
 <h1 align="center"> Rede Social </h1>
 
+<p align="center">🚀 Neste repositório você encontra os conhcimentos adquiridos no curso da Rocketseat. Construção de um layout com Reactjs de uma rede social. </p>
 
-# Link com mais opções de emoji https://gist.github.com/rxaviers/7360908
+
+
 <h4 align="center"> 
     :construction:  Projeto em construção  :construction:
 </h4>
+
 
 ## :hammer: Funcionalidades do projeto
 
